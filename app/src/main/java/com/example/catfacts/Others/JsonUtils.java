@@ -23,7 +23,6 @@ public class JsonUtils {
         Gson gson = new Gson();
 
         Type listType = new TypeToken<List<String>>(){}.getType();
-
         return gson.fromJson(jsonObject.get("facts_about_cats"),listType);
     }
 
