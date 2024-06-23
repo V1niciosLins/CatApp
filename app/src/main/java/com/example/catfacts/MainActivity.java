@@ -1,5 +1,6 @@
 package com.example.catfacts;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,17 +46,70 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         int resourceId = getResources().getIdentifier("catfacts","raw", getPackageName());
+        int resourceId2= getResources().getIdentifier("cuidados","raw", getPackageName());
         getCatFact(resourceId);
+        getCatImage("https://cataas.com/cat?position=center&blur=0&html=true&height=250&width=435");
+        getCatCareTip(resourceId2);
         binding.prog.setVisibility(View.GONE);
         binding.BTN.setOnClickListener(click -> {
             binding.prog.setVisibility(View.VISIBLE);
             getCatFact(resourceId);
+            getCatImage("https://cataas.com/cat?position=center&blur=0&html=true&height=250&width=435");
+            getCatCareTip(resourceId2);
         });
+        openCatVideo();
     }
 
     void getCatFact(int resource){
-        String randomFact = JsonUtils.getRandomFact(this, resource);
+        String randomFact = "Fato interessante:\n"+JsonUtils.getRandomFact(this, resource, "facts_about_cats");
+
         binding.text.setText(randomFact);
-        binding.prog.setVisibility(View.GONE);
+    }
+
+    void getCatCareTip(int resource){
+        String randomCare = "Dica de cuidado gatístico:\n"+
+                JsonUtils.getRandomFact(this, resource, "cat_care_tips");
+
+        binding.Dica.setText(randomCare);
+    }
+
+    void openCatVideo(){
+        binding.BTN2.setOnClickListener(click->{
+            String url = "https://youtu.be/XEAyM_3ucDc?si=XFBBWjBngdyRB6yj";
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(i);
+        });
+    }
+
+    void getCatImage(String url){
+        Request request = new Request.Builder().url(url).build();
+
+        new OkHttpClient().newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MainActivity.this, "Erro ao tentar exibir a foto gatistica", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.isSuccessful()){
+                    final String htmlResponse = response.body().string();
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.WebView.loadData(htmlResponse,"text/html","UTF-8");
+                            binding.WebView.zoomOut();
+                            binding.prog.setVisibility(View.GONE);
+                        }
+                    });
+                }
+            }
+        });
     }
 }

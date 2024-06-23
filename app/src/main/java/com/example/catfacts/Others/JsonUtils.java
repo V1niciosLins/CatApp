@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Random;
 
 public class JsonUtils {
-    public static List<String> readJson(Context context, int resourceId){
+    public static List<String> readJson(Context context, int resourceId, String name){
         InputStream inputStream = context.getResources().openRawResource(resourceId);
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 
@@ -23,11 +23,11 @@ public class JsonUtils {
         Gson gson = new Gson();
 
         Type listType = new TypeToken<List<String>>(){}.getType();
-        return gson.fromJson(jsonObject.get("facts_about_cats"),listType);
+        return gson.fromJson(jsonObject.get(name),listType);
     }
 
-    public static String getRandomFact(Context context, int resourceId){
-        List<String> catFacts = readJson(context, resourceId);
+    public static String getRandomFact(Context context, int resourceId, String name){
+        List<String> catFacts = readJson(context, resourceId, name);
         return catFacts.get(new Random().nextInt(catFacts.size()));
     }
 }

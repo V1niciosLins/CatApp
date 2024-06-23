@@ -7,22 +7,74 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bem vindo ao seu App de dopamina gatifera diario!"
+        android:fontFamily="@font/meowfont"
+        android:textSize="30sp"
+        android:textAlignment="center"
+        android:layout_marginVertical="12dp"/>
 
     <TextView
         android:id="@+id/text"
+        android:layout_below="@id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
         android:layout_margin="7dp"
-        android:text="Carregando o seu próximo fato gatistico!"
-        android:layout_centerInParent="true"/>
+        android:text="Carregando o seu próximo fato gatistico!"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        app:cardCornerRadius="16dp"
+        android:layout_below="@id/prog"
+        android:id="@+id/card"
+        app:cardElevation="4dp"
+        android:layout_margin="6dp"
+        app:strokeWidth="0dp">
+        <WebView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/WebView"/>
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Use os dedos para dar zoom e ajustar a imagem"
+        android:textAlignment="center"
+        android:layout_below="@id/card"
+        android:id="@+id/t"/>
 
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/text"
         android:layout_centerHorizontal="true"
-        android:id="@+id/prog"/>
+        android:id="@+id/prog"
+        android:visibility="visible"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dica de cuidado de pet:"
+        android:layout_below="@id/t"
+        android:layout_margin="6dp"
+        android:id="@+id/Dica"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quer ver um video super fofo?"
+        app:icon="@drawable/icons8_youtube"
+        app:iconTintMode="multiply"
+        app:iconSize="36dp"
+        android:id="@+id/BTN2"
+        android:layout_below="@id/Dica"
+        app:cornerRadius="12dp"
+        android:backgroundTint="@color/black"
+        android:layout_marginStart="6dp"/>
 
     <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
